@@ -1,0 +1,333 @@
+.eaisdk_modal {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    z-index: 10;
+    width: 400px;
+    max-width: 80%;
+}
+
+.eaisdk_content {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    border-radius: 20px;
+}
+
+.eaisdk_card {
+    background: #fff;
+    box-shadow: 0px 2px 18px #0d326073;
+    width: 450px;
+}
+
+.eaisdk_topcard {
+    background-color: #086de9bb;
+}
+
+.eaisdk_img {
+    max-width: 60px;
+    max-height: 60px;
+    margin-top: 10px;
+    margin-left: 10px;
+    position: relative;
+    left: 15px;
+}
+
+.eaisdk_text-info {
+    display: inline-block;
+    margin: 0px 10px;
+    color: #fff;
+    position: relative;
+    bottom: 8px;
+    left: 30px;
+    font-family: sans-serif;
+}
+
+.eaisdk_icon {
+    position: relative;
+    top: 20px;
+}
+
+.eaisdk_p {
+    margin-left: 18px;
+}
+
+.eaisdk_bottomcard {
+    display: flex;
+    justify-content: center;
+}
+
+.eaisdk_bottomcard button {
+    background: #086de9bb;
+    color: #fff;
+    margin: 10px;
+    padding: 10px 110px;
+    border-radius: 8px;
+    border-style: none;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+}
+
+.eaisdk_mediacard {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.eaisdk_text-process {
+    font-size: 20px;
+    position: relative;
+    top: 30px;
+}
+
+.eaisdk_paragraf-process {
+    margin: 30px;
+    text-align: center;
+    color: gray;
+}
+
+.eaisdk_spinner{
+    position: relative;
+    top: 20px;
+    border: 8px solid rgba(0,0,0,.1);
+    border-left-color:blue;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg);  }
+}
+
+hr {
+    opacity: 0.5;
+}
+
+.eaisdk_container {
+    position: relative;
+    top: 45px;
+    right: 15px;
+}
+
+.background {
+    background-color: #0f2386;
+    width: 500px;
+    height: 500px;
+}
+
+.eaisdk_image-background{
+    display: inline-block;
+    margin-top: 50px;
+    margin-left: 50px;
+}
+
+.eaisdk_text-info_1{
+    display: inline-block;
+    margin-top: 50px;
+    margin-left: 50px;
+    position: relative;
+    top: 32px;
+    left: 5px;
+}
+
+.eaisdk_h1 {
+    font-size: 28px;
+    color: white;
+}
+
+.eaisdk_h2 {
+    position: relative;
+    bottom: 35px;
+    font-size: 40px;
+    color: white;
+}
+
+.eaisdk_modal-container {
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid black;
+    font-family: sans-serif;
+    margin: 30px;
+}
+
+.eaisdk_modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.eaisdk_modal-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eaisdk_modal-header .eaisdktitle {
+    font-size: 1.25rem;
+}
+
+.eaisdk_modal-header .eaisdk_close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.eaisdk_modal-body {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.eaisdk_custom-field {
+    position: relative;
+    font-size: 14px;
+    padding-top: 20px;
+    margin-bottom: 5px;
+}
+
+.eaisdk_custom-field input {
+    border: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 12px;
+    border-radius: 3px;
+    background: #f2f2f2;
+    width: 250px;
+    outline: none;
+    font-size: 14px;
+}
+
+.eaisdk_custom-field button {
+    padding: 12px;
+    border-color: #3355FF;
+    border-radius: 3px;
+    background: #3386FF;
+    width: 250px;
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.eaisdk_custom-field .eaisdk_placeholder {
+    position: absolute;
+    left: 12px;
+    top: calc(50% + 10px);
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: 
+        top 0.3s ease, 
+        font-size 0.3s ease, 
+        color 0.3s ease;
+}
+
+.eaisdk_custom-field input:valid + .eaisdk_placeholder,
+.eaisdk_custom-field input:focus + .eaisdk_placeholder {
+    top: 10px;
+    font-size: 10px;
+    color: #222;
+}
+
+/* SECOND */
+.eaisdk_custom-field.eaisdk_second input {
+    background: none;
+    border: 2px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.eaisdk_custom-field.eaisdk_second input:valid,
+.eaisdk_custom-field.eaisdk_second input:focus {
+    border-color: #222;
+    transition-delay: 0.1s;
+}
+
+.eaisdk_custom-field.eaisdk_second input + .eaisdk_placeholder {
+    padding: 0 5px;
+    left: 8px;
+}
+
+.eaisdk_custom-field.eaisdk_second input:valid + .eaisdk_placeholder,
+.eaisdk_custom-field.eaisdk_second input:focus + .eaisdk_placeholder {
+    top: 20px;
+    background: #fff;
+}
+
+.eaisdk_form_error_1 {
+    padding-top: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+
+.eaisdk_form_error_2 {
+    padding-top: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+
+.eaisdk_form_error_1.active {
+    display: block;
+}
+
+.eaisdk_form_error_2.active {
+    display: block;
+}
+
+.sdk-show {
+    display: block;    
+}
+
+.sdk-hidden {
+    display: none;
+}
+
+.eaisdk_button {
+    display: block;
+    width: 300px;
+    height: 25px;
+    background: #086de9bb;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+    cursor: pointer;
+}
+

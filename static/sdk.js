@@ -21,13 +21,11 @@ async function processOrderCreation(modal, overlay, orderId, token) {
         ]
     }
 
-    const orderDetail = await httpRequest('GET', url, options);    
+    let orderDetail = await httpRequest('GET', url, options);    
     console.log('## AQUI ##', orderDetail);
-
-    alert(orderDetail);
-
-    // orderDetailBuilder(orderDetail);
-    // openModal(modal, overlay);
+    orderDetail = JSON.parse(orderDetail);
+    orderDetailBuilder(orderDetail);
+    openModal(modal, overlay);
 }
 
 function orderDetailBuilder(orderDetail) {

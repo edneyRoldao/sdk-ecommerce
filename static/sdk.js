@@ -24,16 +24,6 @@ async function processOrderCreation(modal, overlay, orderId, token) {
     const orderDetail = await httpRequest('GET', url, options);    
     orderDetailBuilder(orderDetail);
 
-    const order = {
-        codigoPedido: 1234,
-        idParceiro: 4545455,
-        descricaoSite: 'www.souice.com.br',
-        dataPedido: '10/05/2021',
-        valorPedido: 125.00
-    }
-    orderDetailBuilder(order);
-
-
     openModal(modal, overlay);
 }
 

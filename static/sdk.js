@@ -10,6 +10,11 @@ async function createEcommerceOrder(orderId, token) {
     processOrderCreation(modalObj.modal, modalObj.overlay, orderId, token);
 }
 
+async function sdkCreateOrder() {
+    switchPage('eaisdk_processing');
+    setTimeout(() => console.log('teste change page'), 3000);
+}
+
 async function processOrderCreation(modal, overlay, orderId, token) {
     switchPage('eaisdk_detail');
     
@@ -22,7 +27,6 @@ async function processOrderCreation(modal, overlay, orderId, token) {
     }
 
     let orderDetail = await httpRequest('GET', url, options);    
-    console.log('## AQUI ##', orderDetail);
     orderDetail = JSON.parse(orderDetail);
     orderDetailBuilder(orderDetail);
     openModal(modal, overlay);

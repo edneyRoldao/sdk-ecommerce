@@ -22,8 +22,8 @@ async function processOrderCreation(modal, overlay, orderId, token) {
     }
 
     const orderDetail = await httpRequest('GET', url, options);    
+    console.log(orderDetail);    
     orderDetailBuilder(orderDetail);
-
     openModal(modal, overlay);
 }
 

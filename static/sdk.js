@@ -1,8 +1,8 @@
-const page = 'http://192.168.15.14:9010/index.html';
-const firstStyle = 'http://192.168.15.14:9010/style.css';
-const logoEai = 'http://192.168.15.14:9010/eai_logo.png';
+const page = 'https://sdk-ecommerce.herokuapp.com/index.html';
+const firstStyle = 'https://sdk-ecommerce.herokuapp.com/style.css';
+const logoEai = 'https://sdk-ecommerce.herokuapp.com/eai_logo.png';
 const iconsStyle = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-const partnerOrderDetailUrl = 'http://192.168.15.14:3000/api/order';
+const partnerOrderDetailUrl = 'https://sdk-ecommerce.herokuapp.com/api/order';
 
 async function createEcommerceOrder(orderId, token) {
     const response = await httpRequest('GET', page);

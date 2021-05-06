@@ -28,7 +28,7 @@ async function processOrderCreation(modal, overlay, orderId, token) {
 }
 
 function orderDetailBuilder(orderDetail) {
-    const orderDetailEl = document.getElementById('eaisdk_detail');
+    const orderDetailEl = document.getElementById('eaisdk_detail_resume');
     const orderSiteEl = document.getElementById('eaisdk_detail_site');
     const orderDateEl = document.getElementById('eaisdk_detail_data');
     const orderNumberEl = document.getElementById('eaisdk_detail_pedido');

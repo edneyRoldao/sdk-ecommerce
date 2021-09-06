@@ -1,10 +1,19 @@
+const Order = require('../model/order-model');
+
 module.exports = (app) => {
 
-    app.get("/api/order/:orderID", (req, res) => {
-        const orderID = req.params.orderID;
-        const token = req.header("Authorization");
-        console.log(orderID, token);
+    // get pre order detail
+    app.get("/order-info", (req, res) => {
+        const token = req.header("partnerToken");
+        const orderID = req.header("partnerOrderId");
         
+        if (!token || !orderID) {
+            return res.status(404).json("order id or token invalid");
+        }
+
+        // todo - chamar o api-gateway
+        
+
         const order = {
             codigoPedido: 1234,
             idParceiro: 4545455,
@@ -15,5 +24,14 @@ module.exports = (app) => {
         
         res.status(200).json(order);
     });
+
+    // create order
+    app.post("/confirm-order", (req, res) => {
+
+        // todo chamar o api gateway
+
+        res.status(200).json('sucesso');
+    });
+
     
 }

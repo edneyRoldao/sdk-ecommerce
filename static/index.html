@@ -36,18 +36,16 @@
                     <img class="eaisdk_img" alt="logo eai">
                     <div class="eaisdk_text-info">
                         <p class="eaisdk_p">Pagando</p>
-                        <p class="eaisdk_p"  style="font-size: 15px;"><strong>R$ 999,80 no pneustore.com.br</strong></p>
+                        <p class="eaisdk_p"  style="font-size: 15px; font-weight: bold;" id="eaisdk_error_info"></p>
                     </div>
                 </div>
                 <div class="eaisdk_mediacard">
-                    <div class="eaisdk_icon"><i class="material-icons mt-3" style="font-size:100px;color:blue;">highlight_off</i></div>
-                    <h2 class="eaisdk_text-process">Titulo de erro</h2>
-                    <p class="eaisdk_paragraf-process">
-                        [ Texto relacionado ao erro, explicando para o usuário o possível motivo e como proceder nos proximos passos ]
-                    </p>     
+                    <div class="eaisdk_icon"><i class="material-icons mt-3" style="font-size:100px; color:blue;">highlight_off</i></div>
+                    <h2 class="eaisdk_text-process" id="eaisdk_error_title"></h2>
+                    <p class="eaisdk_paragraf-process" id="eaisdk_error_message"></p>     
                 </div>
                 <div class="eaisdk_bottomcard">
-                    <button>Entendi</button>
+                    <button type="button" onclick="closeModalFromPage()">Entendi</button>
                 </div>
             </div>
         </div>    

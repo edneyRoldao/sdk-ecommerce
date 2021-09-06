@@ -1,36 +1,77 @@
-const page = 'https://sdk-ecommerce.herokuapp.com/index.html';
-const firstStyle = 'https://sdk-ecommerce.herokuapp.com/style.css';
-const logoEai = 'https://sdk-ecommerce.herokuapp.com/eai_logo.png';
-const iconsStyle = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-const partnerOrderDetailUrl = 'https://sdk-ecommerce.herokuapp.com/api/order';
+let _orderId, _token, _orderInfo;
+const EcommerceSDKHost = process.env.ecommerceSdk.host || 'https://sdk-ecommerce.herokuapp.com';
 
-async function createEcommerceOrder(orderId, token) {
-    const response = await httpRequest('GET', page);
+
+async function confirmEcommerceOrder(orderId, token) {
+    _orderId = orderId;
+    _token = token;
+
+    const response = await httpRequest('GET', `${EcommerceSDKHost}/index.html`);
     const modalObj = initialConfig(response);
-    processOrderCreation(modalObj.modal, modalObj.overlay, orderId, token);
+
+    processOrderConfirmation(modalObj.modal, modalObj.overlay);
 }
 
-async function sdkCreateOrder() {
-    switchPage('eaisdk_processing');
-    setTimeout(() => console.log('teste change page'), 3000);
-}
-
-async function processOrderCreation(modal, overlay, orderId, token) {
+async function processOrderConfirmation(modal, overlay) {
     switchPage('eaisdk_detail');
-    
-    const url = `${partnerOrderDetailUrl}/${orderId}`;
+
+    const request = orderDetailResquestBuilder();
+    let orderDetail = await httpRequest(request.method, request.url, request.options);
+    orderDetail = JSON.parse(orderDetail);
+    orderDetailBuilder(orderDetail);
+
+    openModal(modal, overlay);
+}
+
+
+function orderDetailResquestBuilder() {
+    const method = 'GET';
+    const url = `${EcommerceSDKHost}/order-info`;
 
     const options = {
         headers: [
-            {name: 'Authorization', value: 'testeTokenHeader'}
+            { name: 'partnerToken', value: _token },
+            { name: 'partnerOrderId', value: _token }
         ]
     }
 
-    let orderDetail = await httpRequest('GET', url, options);    
-    orderDetail = JSON.parse(orderDetail);
-    orderDetailBuilder(orderDetail);
-    openModal(modal, overlay);
+    return {
+        method,
+        url,
+        options
+    }
 }
+
+
+
+async function sdkCreateOrder() {
+    switchPage('eaisdk_processing');
+
+    const request = createOrderRequestBuilder();
+    const response = await httpRequest(request.method, request.url, request.options);
+
+
+}
+
+
+function createOrderRequestBuilder() {
+    const method = 'POST';
+    const url = `${EcommerceSDKHost}/confirm-order",`;
+
+    const options = {
+        headers: [
+            { name: 'partnerToken', value: _token },
+            { name: 'partnerOrderId', value: _token }
+        ]
+    }
+
+    return {
+        method,
+        url,
+        options
+    }
+}
+
 
 function orderDetailBuilder(orderDetail) {
     const orderDetailEl = document.getElementById('eaisdk_detail_resume');
@@ -38,7 +79,9 @@ function orderDetailBuilder(orderDetail) {
     const orderDateEl = document.getElementById('eaisdk_detail_data');
     const orderNumberEl = document.getElementById('eaisdk_detail_pedido');
 
-    orderDetailEl.innerHTML = `R$ ${orderDetail.valorPedido} em ${orderDetail.descricaoSite}`;
+    const orderInfo = `R$ ${orderDetail.valorPedido} em ${orderDetail.descricaoSite}`;
+    _orderInfo = orderInfo;
+    orderDetailEl.innerHTML = orderInfo;
     orderSiteEl.innerHTML = orderDetail.descricaoSite;
     orderDateEl.innerHTML = orderDetail.dataPedido;
     orderNumberEl.innerHTML = orderDetail.codigoPedido;
@@ -80,9 +123,16 @@ function closeModal(modal, overlay) {
     overlay.classList.remove('active');
 }
 
+function closeModalFromPage() {
+    const modal = document.getElementById('eaisdk_modal');
+    const overlay = document.getElementById('overlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
 function initialConfig(partialHTML) {
-    addStylesheet(firstStyle);
-    addStylesheet(iconsStyle);
+    addStylesheet(`${EcommerceSDKHost}/style.css`);
+    addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
 
     const mainBody = document.querySelector('body');
     const mainDiv = document.createElement('div');
@@ -103,10 +153,18 @@ function initialConfig(partialHTML) {
     const imagesEl = document.querySelectorAll('.eaisdk_img');
 
     imagesEl.forEach(el => {
-        el.src = logoEai;
+        el.src = `${EcommerceSDKHost}/eai_logo.png`;
     });
 
     return {modal, overlay};
+}
+
+function showPageError(title, message, orderIfo = '') {
+    const infoEl = document.getElementById('eaisdk_error_info');
+    const titleEl = document.getElementById('eaisdk_error_title');
+    const messageEl = document.getElementById('eaisdk_error_message');
+                                                                                                    
+    switchPage('eaisdk_error');
 }
 
 function httpRequest(method, url, options = {}) {

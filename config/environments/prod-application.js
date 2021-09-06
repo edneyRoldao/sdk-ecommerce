@@ -1,8 +1,8 @@
 module.exports = {
-    env: 'dev',
+    env: 'prod',
     ecommerceSdk: {
         host: '',
-        secretKey: '2CBFC726557285319794A5B6E49EC'
+        secretKey: ''
     },
     ecommerceGateway: {
         host: '',

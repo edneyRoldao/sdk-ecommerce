@@ -1,37 +1,41 @@
-const Order = require('../model/order-model');
+const OrderService = require('../service/order-service')();
 
 module.exports = (app) => {
 
-    // get pre order detail
-    app.get("/order-info", (req, res) => {
-        const token = req.header("partnerToken");
-        const orderID = req.header("partnerOrderId");
-        
-        if (!token || !orderID) {
-            return res.status(404).json("order id or token invalid");
-        }
+    app.get("/:orderId/order-info", (req, res) => {
+        const token = req.header("token");
+        const orderId = req.params.orderId;
+        const orderService = new OrderService();
 
-        // todo - chamar o api-gateway
-        
+        orderService.getPendingOrder(token, orderId, (error, request, response, result) => {
+            if (error) {
+                console.log(error);
+                console.log('RESPONSE:', response);
+                console.log('REQUEST:', request);
+                
+                return res.status(400).json({message: 'Ocorreu um erro ao obter os dados do pedido.'})
+            }            
 
-        const order = {
-            codigoPedido: 1234,
-            idParceiro: 4545455,
-            descricaoSite: 'www.souice.com.br',
-            dataPedido: '10/05/2021',
-            valorPedido: '125,00'
-        }
-        
-        res.status(200).json(order);
+            res.status(200).json(result);
+        })
     });
 
-    // create order
-    app.post("/confirm-order", (req, res) => {
+    app.put("/:orderId/confirm-order", (req, res) => {        
+        const token = req.header("token");
+        const orderId = req.params.orderId;
+        const orderService = new OrderService();
+        
+        orderService.confirmOrder(token, orderId, (error, request, response, result) => {
+            if (error) {
+                console.log(error);
+                console.log('RESPONSE:', response);
+                console.log('REQUEST:', request);
+                
+                return res.status(400).json({message: 'Ocorreu um erro ao confirmar o pedido.'})
+            }            
 
-        // todo chamar o api gateway
-
-        res.status(200).json('sucesso');
+            res.status(200).json(result);
+        })
     });
-
-    
+   
 }

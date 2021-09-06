@@ -1,4 +1,5 @@
 <div class="eaisdk_modal" id="eaisdk_modal">
+
     <!-- detail -->
     <div class="sdk-hidden" sdk-html-switch id="eaisdk_detail">
         <div class="eaisdk_content">
@@ -22,7 +23,7 @@
                     <hr>
                 </div>
                 <div class="eaisdk_bottomcard">
-                    <button type="button" onclick="sdkCreateOrder()">Pagar com Abastece aí</button>
+                    <button type="button" onclick="confirmOrderFromPage()">Pagar com Abastece aí</button>
                 </div>
             </div>
         </div>    
@@ -59,7 +60,7 @@
                     <img class="eaisdk_img" alt="logo eai">
                     <div class="eaisdk_text-info">
                         <p class="eaisdk_p">Pagando</p>
-                        <p class="eaisdk_p" style="font-size: 15px;"><strong>R$ 999,80 no pneustore.com.br</strong></p>
+                        <p class="eaisdk_p" style="font-size: 15px; font-weight: bold;" id="eaisdk_payment_orderInfo"></p>
                     </div>
                 </div>
                 <div class="eaisdk_mediacard">
@@ -70,7 +71,7 @@
                     </p>     
                 </div>
                 <div class="eaisdk_bottomcard">
-                    <button>Entendi</button>
+                    <button type="button" onclick="redirectUrlFromPage()">Entendi</button>
                 </div>
             </div>
         </div>    
@@ -88,7 +89,9 @@
                         <div class="eaisdk_spinner"></div>
                     </div>
                     <div class="eaisdk_text-process"><h3 style="color: black;">Processando solicitação</h3></div>
-                    <div class="eaisdk_paragraf-process"><p>Aguarde enquanto processamos a sua solicitação para continuar o pagamento via Abastece aí</p></div>
+                    <div class="eaisdk_paragraf-process">
+                        <p id="eaisdk_processing_description"></p>
+                    </div>
                 </div>
             </div>
         </div>    

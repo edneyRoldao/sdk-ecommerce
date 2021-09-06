@@ -1,93 +1,99 @@
-let _orderId, _token, _orderInfo;
-const EcommerceSDKHost = process.env.ecommerceSdk.host || 'https://sdk-ecommerce.herokuapp.com';
+let _orderId, _token, _orderInfo, _redirectUrl;
+const EcommerceSDKHost = 'https://sdk-ecommerce.herokuapp.com';
 
 
-async function confirmEcommerceOrder(orderId, token) {
+
+// PUBLIC FUNCTIONS
+async function abrirModalConfirmacaoPedidoAbasteceAi(orderId, token) {
     _orderId = orderId;
     _token = token;
 
-    const response = await httpRequest('GET', `${EcommerceSDKHost}/index.html`);
-    const modalObj = initialConfig(response);
+    const response = await _httpRequest('GET', `${EcommerceSDKHost}/index.html`);
+    const modalObj = _initialConfig(response);
 
-    processOrderConfirmation(modalObj.modal, modalObj.overlay);
-}
+    _openModal(modal, overlay);
 
-async function processOrderConfirmation(modal, overlay) {
-    switchPage('eaisdk_detail');
-
-    const request = orderDetailResquestBuilder();
-    let orderDetail = await httpRequest(request.method, request.url, request.options);
-    orderDetail = JSON.parse(orderDetail);
-    orderDetailBuilder(orderDetail);
-
-    openModal(modal, overlay);
+    _showProcessingPage("Aguarde enquanto buscamos os dados do pedido.");
+    
+    _getOrderDetail(modalObj.modal, modalObj.overlay);
 }
 
 
-function orderDetailResquestBuilder() {
+// FUNCTIONS CALLED BY PAGES
+async function confirmOrderFromPage() {
+    _showProcessingPage("Aguarde enquanto processamos a sua solicitação para continuar o pagamento via Abastece aí");
+
+    const request = _confirmOrderRequestBuilder();
+    const response = await _httpRequest(request.method, request.url, request.options);
+    const confirmationDetail = JSON.parse(response);
+
+    if (!confirmationDetail || confirmationDetail.orderStatus === 'CONFIRMATION_ERROR') {
+        const title = 'Erro ao confirmar pedido';
+        const message = 'Ocorreu um erro inesperado ao confirmar o pedido'
+        _showErrorPage(title, message);
+        _redirectToPartnerPage(confirmationDetail.redirectUrl);
+    } else {
+        _redirectUrl = confirmationDetail.redirectUrl;
+        _showAwaitingPaymentPage();
+    }
+}
+
+function closeModalFromPage() {
+    const modal = document.getElementById('eaisdk_modal');
+    const overlay = document.getElementById('overlay');
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+}
+
+function redirectUrlFromPage() {
+    _redirectToPartnerPage(_redirectUrl);
+}
+
+
+// PRIVATE FUNCTIONS
+async function _getOrderDetail(modal, overlay) {
+    const request = _orderDetailResquestBuilder();
+    const response = await _httpRequest(request.method, request.url, request.options);
+    const orderDetail = JSON.parse(response);
+
+    if (orderDetail && orderDetail.orderId) {
+        _showOrderDetailPage(orderDetail);
+
+    } else {
+        const title = 'Erro ao obter pedido';
+        const message = 'Ocorreu um erro inesperado ao buscar as informações do pedido'
+        _showErrorPage(title, message);
+    }
+}
+
+function _orderDetailResquestBuilder() {
     const method = 'GET';
-    const url = `${EcommerceSDKHost}/order-info`;
+    const url = `${EcommerceSDKHost}/${_orderId}/order-info`;
 
     const options = {
         headers: [
-            { name: 'partnerToken', value: _token },
-            { name: 'partnerOrderId', value: _token }
+            { name: 'token', value: _token }
         ]
     }
 
-    return {
-        method,
-        url,
-        options
-    }
+    return { method, url, options }
 }
 
 
-
-async function sdkCreateOrder() {
-    switchPage('eaisdk_processing');
-
-    const request = createOrderRequestBuilder();
-    const response = await httpRequest(request.method, request.url, request.options);
-
-
-}
-
-
-function createOrderRequestBuilder() {
-    const method = 'POST';
-    const url = `${EcommerceSDKHost}/confirm-order",`;
+function _confirmOrderRequestBuilder() {
+    const method = 'PUT';
+    const url = `${EcommerceSDKHost}/${_orderId}/confirm-order",`;
 
     const options = {
         headers: [
-            { name: 'partnerToken', value: _token },
-            { name: 'partnerOrderId', value: _token }
+            { name: 'token', value: _token }
         ]
     }
 
-    return {
-        method,
-        url,
-        options
-    }
+    return { method, url, options }
 }
 
-
-function orderDetailBuilder(orderDetail) {
-    const orderDetailEl = document.getElementById('eaisdk_detail_resume');
-    const orderSiteEl = document.getElementById('eaisdk_detail_site');
-    const orderDateEl = document.getElementById('eaisdk_detail_data');
-    const orderNumberEl = document.getElementById('eaisdk_detail_pedido');
-
-    const orderInfo = `R$ ${orderDetail.valorPedido} em ${orderDetail.descricaoSite}`;
-    _orderInfo = orderInfo;
-    orderDetailEl.innerHTML = orderInfo;
-    orderSiteEl.innerHTML = orderDetail.descricaoSite;
-    orderDateEl.innerHTML = orderDetail.dataPedido;
-    orderNumberEl.innerHTML = orderDetail.codigoPedido;
-}
-
-function addStylesheet(styleName) {
+function _addStylesheet(styleName) {
     const styles = document.createElement('link');
     styles.rel = 'stylesheet';
     styles.href = styleName;
@@ -96,7 +102,7 @@ function addStylesheet(styleName) {
     document.querySelector('head').appendChild(styles);
 }
 
-function switchPage(pageId) {
+function _switchPage(pageId) {
     const pages = document.querySelectorAll('[sdk-html-switch]');
     pages.forEach(page => {
         if (page.id === pageId) {
@@ -111,7 +117,7 @@ function switchPage(pageId) {
     })
 }
 
-function openModal(modal, overlay) {
+function _openModal(modal, overlay) {
     if (!modal) return;
     modal.classList.add('active');
     overlay.classList.add('active');
@@ -123,16 +129,9 @@ function closeModal(modal, overlay) {
     overlay.classList.remove('active');
 }
 
-function closeModalFromPage() {
-    const modal = document.getElementById('eaisdk_modal');
-    const overlay = document.getElementById('overlay');
-    modal.classList.remove('active');
-    overlay.classList.remove('active');
-}
-
-function initialConfig(partialHTML) {
-    addStylesheet(`${EcommerceSDKHost}/style.css`);
-    addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
+function _initialConfig(partialHTML) {
+    _addStylesheet(`${EcommerceSDKHost}/style.css`);
+    _addStylesheet('https://fonts.googleapis.com/icon?family=Material+Icons');
 
     const mainBody = document.querySelector('body');
     const mainDiv = document.createElement('div');
@@ -159,15 +158,49 @@ function initialConfig(partialHTML) {
     return {modal, overlay};
 }
 
-function showPageError(title, message, orderIfo = '') {
-    const infoEl = document.getElementById('eaisdk_error_info');
-    const titleEl = document.getElementById('eaisdk_error_title');
-    const messageEl = document.getElementById('eaisdk_error_message');
-                                                                                                    
-    switchPage('eaisdk_error');
+function _showOrderDetailPage(orderDetail) {
+    const orderDetailEl = document.getElementById('eaisdk_detail_resume');
+    const orderSiteEl = document.getElementById('eaisdk_detail_site');
+    const orderDateEl = document.getElementById('eaisdk_detail_data');
+    const orderNumberEl = document.getElementById('eaisdk_detail_pedido');
+    _orderInfo = `R$ ${orderDetail.amount} em ${orderDetail.storeFantasyName}`;
+    orderDetailEl.innerHTML = _orderInfo;
+    orderSiteEl.innerHTML = orderDetail.storeSite;
+    orderDateEl.innerHTML = orderDetail.creationDateTime;
+    orderNumberEl.innerHTML = orderDetail.orderId;
+
+    _switchPage('eaisdk_detail');
 }
 
-function httpRequest(method, url, options = {}) {
+function _showAwaitingPaymentPage() {
+    const orderInfoEl = document.getElementById('eaisdk_payment_orderInfo');
+    orderInfoEl.innerHTML = _orderInfo;
+    _switchPage('eaisdk_payment');
+}
+
+function _showProcessingPage(message) {
+    const descriptionEl = document.getElementById('eaisdk_processing_description');
+    descriptionEl.innerHTML = message;
+    _switchPage('eaisdk_processing');
+}
+
+function _showErrorPage(title, message, orderIfo = '') {
+    const infoEl = document.getElementById('eaisdk_error_info');
+    const titleEl = document.getElementById('eaisdk_error_title');
+    const messageEl = document.getElementById('eaisdk_error_message');                                                                                                    
+    titleEl.innerHTML = title;
+    infoEl.innerHTML = orderIfo;
+    messageEl.innerHTML = message;
+    _switchPage('eaisdk_error');
+}
+
+function _redirectToPartnerPage(url) {
+    setTimeout(function() {            
+        window.location(url);
+    }, 5000);
+}
+
+function _httpRequest(method, url, options = {}) {
     return new Promise(function (resolve, reject) {
         const xhttp = new XMLHttpRequest();
 
@@ -181,7 +214,9 @@ function httpRequest(method, url, options = {}) {
         })
 
         xhttp.onload = function () {
-            this.status >= 200 && this.status < 300 ? resolve(xhttp.response) : reject({status: this.status, message: xhttp.statusText});
+            this.status >= 200 && this.status < 300 ? 
+            resolve(xhttp.response) : 
+            reject({status: this.status, message: xhttp.statusText});
         };
 
         xhttp.onerror = function () {

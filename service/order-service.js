@@ -1,8 +1,9 @@
 let client; 
+const config = require('../config/config')();
 let restifyClient = require('restify-clients');
 
 function EcommerceGatewayClient() {
-    client = restifyClient.createJsonClient(process.env.ecommerceGateway.host);
+    client = restifyClient.createJsonClient(config.ecommerceGateway.host);
 }
 
 EcommerceGatewayClient.prototype.confirmOrder = (token, orderId, callback) => {
@@ -10,7 +11,7 @@ EcommerceGatewayClient.prototype.confirmOrder = (token, orderId, callback) => {
         path: `/ecommerce/orders/${orderId}/confirm`,
         headers: {
             authorization: token,
-            'sdk-secret-key': process.env.ecommerceSdk.secretKey
+            'sdk-secret-key': config.ecommerceSdk.secretKey
         }
     }
 
@@ -22,7 +23,7 @@ EcommerceGatewayClient.prototype.getPendingOrder = (token, orderId, callback) =>
         path: `/ecommerce/orders/${orderId}/pending`,
         headers: {
             authorization: token,
-            'sdk-secret-key': process.env.ecommerceSdk.secretKey
+            'sdk-secret-key': config.ecommerceSdk.secretKey
         }
     }
 

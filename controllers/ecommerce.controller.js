@@ -25,12 +25,9 @@ module.exports = (app) => {
         const orderId = req.params.orderId;
         const orderService = new OrderService();
         
+        
         orderService.confirmOrder(token, orderId, (error, request, response, result) => {
             if (error) {
-                console.log(error);
-                console.log('RESPONSE:', response);
-                console.log('REQUEST:', request);
-                
                 return res.status(400).json({message: 'Ocorreu um erro ao confirmar o pedido.'})
             }            
 

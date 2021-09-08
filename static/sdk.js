@@ -1,5 +1,6 @@
 let _orderId, _token, _orderInfo, _redirectUrl;
-const EcommerceSDKHost = 'https://sdk-ecommerce.herokuapp.com';
+// const EcommerceSDKHost = 'https://sdk-ecommerce.herokuapp.com';
+const EcommerceSDKHost = 'http://localhost:3000';
 
 
 
@@ -11,7 +12,7 @@ async function abrirModalConfirmacaoPedidoAbasteceAi(orderId, token) {
     const response = await _httpRequest('GET', `${EcommerceSDKHost}/index.html`);
     const modalObj = _initialConfig(response);
 
-    _openModal(modal, overlay);
+    _openModal(modalObj.modal, modalObj.overlay);
 
     _showProcessingPage("Aguarde enquanto buscamos os dados do pedido.");
     
@@ -82,7 +83,7 @@ function _orderDetailResquestBuilder() {
 
 function _confirmOrderRequestBuilder() {
     const method = 'PUT';
-    const url = `${EcommerceSDKHost}/${_orderId}/confirm-order",`;
+    const url = `${EcommerceSDKHost}/${_orderId}/confirm-order`;
 
     const options = {
         headers: [

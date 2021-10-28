@@ -1,29 +1,92 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
     <head>
+        <title>parceiro mock teste</title>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <style>
-            .button {
-                display: block;
-                width: 300px;
-                height: 25px;
-                background: #4E9CAF;
-                padding: 10px;
-                text-align: center;
-                border-radius: 5px;
-                color: white;
-                font-weight: bold;
-                line-height: 25px;
-                cursor: pointer;
-            }
-        </style>
-        <script defer src="sdk.js"></script>
+        <link rel="stylesheet" href="parceiro.css">
+        <!-- <script defer src="https://ecommerce.sdk.hmleai.com/sdk.min.js"></script> -->
+        <script defer src="https://ecommerce.sdk.rdeai-lab.net/sdk.min.js"></script>
+        <script defer src="parceiro.js"></script>
     </head>
     <body>
-        <h1>PARCEIRO</h1>
-        <br>
-        <a class="button" onclick="abrirModalConfirmacaoPedidoAbasteceAi('PRE-ORD-013fba46-52a8-4504-9156-7e0671dd3e85', 'eyJhbGciOiJIUzI1NiJ9.eyJzdG9yZVNpdGUiOiJub3QgaW1wbGVtZW50Iiwic3ViIjoiNDU2MzE2NDUwMDAxNjAiLCJlcnJvclVybCI6ImVycm9yIiwicGVuZGluZ1VybCI6InBlbmRpbmciLCJzdG9yZVV1aWQiOiJTVE8tNDBlMTRlZGYtNjIxMi00YmMyLThjNjQtMmVlZTQyMzNiMDhlIiwic3VjY2Vzc1VybCI6InN1Y2Nlc3MiLCJleHAiOjE2MzQ3MDMyOTl9.K_OU1m3v8LEtr3ImUyWQeHv4CuA7TvRXBmKHNE2kdHI')">PAGAR AGORA</a>
-        <div id="print"></div>
+
+      <div class="show" id="ecm-login">
+          <div class="imgcontainer">
+            E-Commerce SDK TESTE
+            <h1>Login</h1>
+          </div>
+        
+          <div class="container">
+            <label for="uname"><b>Store document</b></label>
+            <input type="text" placeholder="CNPJ" name="uname" id="ecm-user">
+
+            <label for="cus"><b>Customer document</b></label>
+            <input type="text" placeholder="cpf cliente" name="cus" id="ecm-cus">
+
+            <label for="psw"><b>E-commerce password</b></label>
+            <input type="text" placeholder="Enter Password" name="psw" id="ecm-pass">
+        
+            <button onclick="login()">Login</button>
+          </div>
+      </div>
+
+      <div class="hide" id="ecm-shopping">
+        <h1>Teste SDK e-commerce</h1>
+        <hr>
+            <p>Store document: <span id="cusDocument"></span></p>
+            <p>Customer document: <span id="stoDocument"></span></p>
+            <p>token parceiro: <span id="tokenParceiro"></span></p>
+            <p>Dados do pedido: <span id="dadosPedido"></span></p>
+        <hr>
+        <div class="row">
+            <div class="column">
+              <div class="card">
+                <img src="jeans3.jpg" alt="Denim Jeans" style="width:200px; height:200px">
+                <h1>Calça Jeans Prod 1</h1>
+                <p class="price">$19.45</p>
+                <p><input type="number" placeholder="quantidade" id="qwer-asdf-zxcv1"></p>
+                <p><button onclick="adicionar('qwer-asdf-zxcv1')">Adicionar</button></p>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card">
+                <img src="jeans3.jpg" alt="Denim Jeans" style="width:200px; height:200px">
+                <h1>Calça Jeans Prod 2</h1>
+                <p class="price">$25.73</p>
+                <p><input type="number" placeholder="quantidade" id="qwer-asdf-zxcv2"></p>
+                <p><button onclick="adicionar('qwer-asdf-zxcv2')">Adicionar</button></p>
+
+              </div>
+            </div>
+            <div class="column">
+              <div class="card">
+                <img src="jeans3.jpg" alt="Denim Jeans" style="width:200px; height:200px">
+                <h1>Calça Jeans Prod 3</h1>
+                <p class="price">$41.10</p>
+                <p><input type="number" placeholder="quantidade" id="qwer-asdf-zxcv3"></p>
+                <p><button onclick="adicionar('qwer-asdf-zxcv3')">Adicionar</button></p>
+              </div>
+            </div>
+            <div class="column">
+              <div class="card">
+                <img src="jeans3.jpg" alt="Denim Jeans" style="width:200px; height:200px">
+                <h1>Calça Jeans Prod 4</h1>
+                <p class="price">$24.30</p>
+                <p><input type="number" placeholder="quantidade" id="qwer-asdf-zxcv4"></p>
+                <p><button onclick="adicionar('qwer-asdf-zxcv4')">Adicionar</button></p>
+              </div>
+            </div>
+          </div>
+          <div>
+              <p>Total de produtos: <span id="pTotal"></span></p>
+              <p>Total de Itens: <span id="iTotal"></span></p>
+              <p>Valor total: <span id="vTotal"></span></p>
+          </div>
+          <hr>
+          <div>
+            <a class="button" onclick="pagarComAbasteceAI()">PAGAR COM ABASTECEAI</a>
+          </div>
+      </div>
+
     </body>
 </html>
-
-

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "export SDK_ECOMMERCE_ENV=development && nodemon index.js",
+    "start-dev": "nodemon index.js",
     "start": "node index.js"
   },
   "repository": {

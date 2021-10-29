@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 let logId = 0;
 const logs = [];
-const key = "";
+const key = "STO-3684560b-e8d6-4091-84b2-13bdd118679b";
 
 module.exports = (app) => {
 
@@ -37,13 +37,26 @@ module.exports = (app) => {
         res.status(200).json(msg);
     });
    
-    app.get("/webhook-logs", (req, res) => {        
+    app.get("/webhook-logs", (req, res) => {
+        if (!logs.length) {
+            return res
+            .status(200)
+            .json({message: "nao existe logs para apresentar."});
+        }
+        
         res.status(200).json(logs);
     });
 
     app.get("/webhook-logs/:id", (req, res) => {
         const logId = req.params.id;
         const log = logs.find(l => l.id == logId);
+
+        if (!log) {
+            return res
+            .status(200)
+            .json({message: `nao existe log para o id: ${logId}`});
+        }
+
         res.status(200).json(log);
     });
 

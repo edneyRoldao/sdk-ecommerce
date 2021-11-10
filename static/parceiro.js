@@ -1,6 +1,8 @@
 let token, prePedido, storeDocument, password, customerDocument;
-// const gatewayHost = 'https://ecommerce.gateway.hmleai.com';
-const gatewayHost = 'https://ecommerce.gateway.rdeai-lab.net';
+const gatewayHost = 'https://ecommerce.gateway.hmleai.com';
+// const gatewayHost = 'https://ecommerce.gateway.rdeai-lab.net';
+const gatewayHost = 'http://localhost:9010';
+
 const characters = 'QWE0RTY1UIO2PAS3DFG4HJK5LZX6CVB7NMq8wer9tyu0iop1asd2fgh3jkl4zxc5vbn6m';
 
 let produtosSelecionados = [];

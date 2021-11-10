@@ -11,10 +11,14 @@ module.exports = (app) => {
         const requestBody = req.body;
         const signature = req.header("abasteceai-signature");
 
-        const hash = crypto
+        let hash = crypto
             .createHmac('sha256', key)
             .update(JSON.stringify(requestBody))
             .digest('hex');
+
+        if (hash.length > signature.length) {
+            hash = hash.substring(1);
+        }
 
         const isEqual = signature == hash;
 

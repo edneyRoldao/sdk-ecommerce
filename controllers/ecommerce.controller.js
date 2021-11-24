@@ -1,9 +1,16 @@
 const crypto = require('crypto');
 let logId = 0;
 const logs = [];
-const key = "STO-3684560b-e8d6-4091-84b2-13bdd118679b";
+let key = "STO-3684560b-e8d6-4091-84b2-13bdd118679b";
 
 module.exports = (app) => {
+
+    app.get("/webhook/change-store/:storeId", (req, res) => {
+        const storeId = req.params.storeId;
+        key = storeId;
+
+        res.status(200).json({message: 'webhook teve o storeId alterado.'});
+    })
 
     app.post("/webhook-test", (req, res) => {
         logId++;

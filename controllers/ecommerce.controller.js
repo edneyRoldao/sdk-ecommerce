@@ -4,7 +4,6 @@ const logs = [];
 let key = "STO-3684560b-e8d6-4091-84b2-13bdd118679b";
 
 module.exports = (app) => {
-
     app.get("/webhook/change-store/:storeId", (req, res) => {
         const storeId = req.params.storeId;
         key = storeId;
@@ -70,5 +69,4 @@ module.exports = (app) => {
 
         res.status(200).json(log);
     });
-
 }

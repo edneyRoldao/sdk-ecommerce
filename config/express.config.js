@@ -1,5 +1,6 @@
 const express = require('express');
 const ecommerceController = require('../controllers/ecommerce.controller');
+const secretKeysController = require('../controllers/secret-keys.controller');
 
 module.exports = () => {
     const app = express();
@@ -17,6 +18,7 @@ module.exports = () => {
     
     // controllers
     ecommerceController(app);
+    secretKeysController(app);
 
     return app;
 };

@@ -105,19 +105,9 @@ async function criarPedido() {
 }
 
 function pagarComAbasteceAI() {
-    obterToken();
-
-    setTimeout(function () {
-        criarPedido();
-
-        setTimeout(function () {
-            const orderTokenEL = document.getElementById('orderToken');
-            orderTokenEL.innerHTML = prePedido.orderToken;
-            abrirModalConfirmacaoPedidoAbasteceAi(prePedido.orderToken);
-            
-        }, 3000);
-
-    }, 3000);
+    const orderTokenEL = document.getElementById('orderToken');
+    orderTokenEL.innerHTML = "dfgdsfg";
+    abrirModalConfirmacaoPedidoAbasteceAi("dsfgsdfg");
 }
 
 function createOrderRequestBuilder() {

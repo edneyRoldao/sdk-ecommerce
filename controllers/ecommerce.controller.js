@@ -22,9 +22,9 @@ module.exports = (app) => {
             .update(JSON.stringify(requestBody))
             .digest('hex');
 
-        if (hash.length > signature.length) {
-            hash = hash.substring(1);
-        }
+        // if (hash.length > signature.length) {
+        //     hash = hash.substring(1);
+        // }
 
         const isEqual = signature == hash;
 

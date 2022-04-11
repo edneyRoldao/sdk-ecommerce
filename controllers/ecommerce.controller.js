@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 let logId = 0;
 const logs = [];
-let key = "STO-3684560b-e8d6-4091-84b2-13bdd118679b";
+let key = "STO-1345c94c-0a29-49b4-9ff3-dc5544ef42ba";
 
 module.exports = (app) => {
     app.get("/webhook/change-store/:storeId", (req, res) => {

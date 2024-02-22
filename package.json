@@ -2,7 +2,7 @@
   "name": "sdk-ecommerce",
   "version": "1.0.0",
   "description": "deploy app to avoid same origin policy",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon main.js",

@@ -88,7 +88,7 @@ function sumarizar() {
 
 async function obterToken() {
     const req = tokenRequestBuilder();
-    let response = await httpRequest(req.method, req.url, req.options);
+    let response = await httpRequest(req.method, req.url, req.options, 'application/x-www-form-urlencoded');
     response = JSON.parse(response);
     const tokenEL = document.getElementById('tokenParceiro');
     tokenEL.innerHTML = response.token;
@@ -147,13 +147,16 @@ function tokenRequestBuilder() {
     const url = `${gatewayHost}/ecommerce/auth/generate-token`;
 
     const options = {
-        params: JSON.stringify({ storeDocument, password })
+        params: JSON.stringify({ username: storeDocument, password: password, grant_type: 'password' }),
+        headers: [
+            {name: 'Authorization', value: 'Basic SnIzOHM2czRoMnVoTWlHdEtFSklYNTE4Y2dnOEJuTXM6UUpldGJ6MVFCV1RpdVh5WWY4cWZ2M3JZMlZZcXNqMDJDR3UzZTRYZ1BGdzl1M1A3N2swcHFTbHdIeEp1MmJwRA=='}
+        ]
     }
 
     return { method, url, options }
 }
 
-function httpRequest(method, url, options = {}) {
+function httpRequest(method, url, options = {}, contentType) {
     return new Promise(function (resolve, reject) {
         const xhttp = new XMLHttpRequest();
 
@@ -166,7 +169,9 @@ function httpRequest(method, url, options = {}) {
             xhttp.setRequestHeader(header.name, header.value);
         })
 
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        contentType = !contentType ? "application/json" : contentType;
+
+        xhttp.setRequestHeader("Content-Type", contentType);
 
         xhttp.onload = function () {
             this.status >= 200 && this.status < 300 ?

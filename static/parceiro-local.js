@@ -92,8 +92,8 @@ async function obterToken() {
     let response = await httpRequest(req.method, req.url, req.options);
     response = JSON.parse(response);
     const tokenEL = document.getElementById('tokenParceiro');
-    tokenEL.innerHTML = response.token;
-    token = response.token;
+    tokenEL.innerHTML = response['token'];
+    token = response['token'];
 }
 
 async function criarPedido() {
@@ -147,14 +147,22 @@ function tokenRequestBuilder() {
     const method = 'POST';
     const url = `${gatewayHost}/ecommerce/auth/generate-token`;
 
+    // const options = {
+    //     params: JSON.stringify({ username: storeDocument, password: password, grant_type: 'password' }),
+    //     headers: [
+    //         {name: 'Authorization', value: 'Basic SnIzOHM2czRoMnVoTWlHdEtFSklYNTE4Y2dnOEJuTXM6UUpldGJ6MVFCV1RpdVh5WWY4cWZ2M3JZMlZZcXNqMDJDR3UzZTRYZ1BGdzl1M1A3N2swcHFTbHdIeEp1MmJwRA=='}
+    //     ]
+    // }
+
     const options = {
-        params: JSON.stringify({ storeDocument, password })
+        params: JSON.stringify({ storeDocument: storeDocument, password: password }),
     }
+
 
     return { method, url, options }
 }
 
-function httpRequest(method, url, options = {}) {
+function httpRequest(method, url, options = {}, contentType) {
     return new Promise(function (resolve, reject) {
         const xhttp = new XMLHttpRequest();
 
@@ -167,7 +175,9 @@ function httpRequest(method, url, options = {}) {
             xhttp.setRequestHeader(header.name, header.value);
         })
 
-        xhttp.setRequestHeader("Content-Type", "application/json");
+        contentType = !contentType ? "application/json" : contentType;
+
+        xhttp.setRequestHeader("Content-Type", contentType);
 
         xhttp.onload = function () {
             this.status >= 200 && this.status < 300 ?
@@ -178,6 +188,9 @@ function httpRequest(method, url, options = {}) {
         xhttp.onerror = function () {
             reject({ status: this.status, message: xhttp.statusText });
         };
+
+        console.log('############################');
+        console.log(params);
 
         xhttp.send(params);
     });

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  sdkmock:
+    container_name: sdkMock
+    build: .
+    ports:
+      - "3000:3000"
